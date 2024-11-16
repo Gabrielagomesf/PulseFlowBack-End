@@ -3,7 +3,10 @@ const jwt = require("jsonwebtoken");
 const verifyToken = (req, res, next) => {
     const token = req.header("Authorization")?.replace("Bearer ", "");
     if (!token) {
-        return res.status(401).json({ success: false, message: "Acesso negado, token não encontrado." });
+        return res.status(401).json({
+            success: false,
+            message: "Acesso negado. Token não encontrado.",
+        });
     }
 
     try {
@@ -11,7 +14,11 @@ const verifyToken = (req, res, next) => {
         req.medicoId = decoded.id;
         next();
     } catch (error) {
-        res.status(401).json({ success: false, message: "Token inválido ou expirado." });
+        const message =
+            error.name === "TokenExpiredError"
+                ? "O token expirou. Faça login novamente."
+                : "Token inválido.";
+        res.status(401).json({ success: false, message });
     }
 };
 

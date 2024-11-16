@@ -1,28 +1,25 @@
 require("dotenv").config();
 const express = require("express");
 const mongoose = require("mongoose");
-const cors = require("cors");  // Importando o pacote cors
+const cors = require("cors");
 const medicoRoutes = require("./routes/medicoRoutes");
 
 const app = express();
 const PORT = process.env.PORT || 5000;
 
-// Imprimir a URL do MongoDB no console
+// Logando a URL do MongoDB
 console.log(`MongoDB URL: ${process.env.MONGO_URI}`);
 
-// Configuração do CORS (permite requisições de qualquer origem)
-app.use(cors());  // Permite que qualquer origem acesse a API
-
-// Caso você queira permitir apenas o seu front-end (exemplo: localhost:5500)
-// app.use(cors({
-//     origin: 'http://127.0.0.1:5500'  // Substitua com o URL do seu front-end
-// }));
-
+// Configuração de middlewares
+app.use(cors());
 app.use(express.json());
+
+// Rotas
 app.use("/api", medicoRoutes);
 
+// Conexão ao MongoDB e inicialização do servidor
 mongoose
-    .connect(process.env.MONGO_URI, { useNewUrlParser: true, useUnifiedTopology: true })
+    .connect(process.env.MONGO_URI) // Removendo os parâmetros desnecessários
     .then(() => {
         console.log("Conectado ao MongoDB");
         app.listen(PORT, () => {

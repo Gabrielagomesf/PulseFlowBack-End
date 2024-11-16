@@ -1,22 +1,21 @@
 const express = require('express');
-const { 
-    register, 
-    login, 
-    perfil, 
-    atualizarPerfil, 
-    atualizarFoto 
-} = require('../controllers/medicoController');  // Remover a referência ao authController
+const {
+    register,
+    login,
+    perfil,
+    atualizarPerfil,
+    atualizarFoto,
+} = require('../controllers/medicoController'); // Controladores
 
-const { verifyToken } = require('../middlewares/authMiddleware');  // Middleware para verificar o token
+const { verifyToken } = require('../middlewares/authMiddleware'); // Middleware de autenticação
 
 const router = express.Router();
 
-// Definindo as rotas
-router.post('/medico/register', register);
-router.post('/medico/login', login);
-router.get('/medico/perfil', verifyToken, perfil);  // Verifica se o token é válido antes de acessar o perfil
-router.put('/medico/atualizar', verifyToken, atualizarPerfil);
-router.post('/medico/foto', verifyToken, atualizarFoto);
-router.get('/perfil', authenticate, getMedicoProfile);
+// Rotas para médicos
+router.post('/medico/register', register); // Registro
+router.post('/medico/login', login); // Login
+router.get('/medico/perfil', verifyToken, perfil); // Perfil protegido
+router.put('/medico/atualizar', verifyToken, atualizarPerfil); // Atualizar perfil
+router.post('/medico/foto', verifyToken, atualizarFoto); // Atualizar foto de perfil
 
 module.exports = router;
