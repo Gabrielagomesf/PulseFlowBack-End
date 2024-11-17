@@ -5,17 +5,15 @@ const {
     perfil,
     atualizarPerfil,
     atualizarFoto,
-} = require('../controllers/medicoController'); // Controladores
-
-const { verifyToken } = require('../middlewares/authMiddleware'); // Middleware de autenticação
+} = require('../controllers/medicoController');
+const { verifyToken } = require('../middlewares/authMiddleware');
 
 const router = express.Router();
 
-// Rotas para médicos
-router.post('/medico/register', register); // Registro
-router.post('/medico/login', login); // Login
-router.get('/medico/perfil', verifyToken, perfil); // Perfil protegido
-router.put('/medico/atualizar', verifyToken, atualizarPerfil); // Atualizar perfil
-router.post('/medico/foto', verifyToken, atualizarFoto); // Atualizar foto de perfil
+router.post('/medico/register', register);
+router.post('/medico/login', login);
+router.get('/medico/perfil', verifyToken, perfil);
+router.put('/medico/atualizar', verifyToken, atualizarPerfil);
+router.post('/medico/foto', verifyToken, atualizarFoto);
 
 module.exports = router;
