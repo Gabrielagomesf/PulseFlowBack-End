@@ -42,12 +42,10 @@ const registroPaciente = async (req, res) => {
 
 module.exports = { registroPaciente };
   
-// Login de pacientes
 const loginPaciente = async (req, res) => {
     const { cpf, senha } = req.body;
 
     try {
-        // Procurar paciente pelo CPF
         const paciente = await Paciente.findOne({ cpf });
         if (!paciente) return res.status(404).json({ success: false, message: "CPF não encontrado" });
 
@@ -55,9 +53,9 @@ const loginPaciente = async (req, res) => {
         const senhaCorreta = await bcrypt.compare(senha, paciente.senha);
         if (!senhaCorreta) return res.status(401).json({ success: false, message: "Senha incorreta" });
 
-        // Gerar token de autenticação
         const token = jwt.sign({ id: paciente._id }, process.env.JWT_SECRET, { expiresIn: "1h" });
-        res.status(200).json({ success: true, token });  // Enviar o token no corpo da resposta
+
+        res.status(200).json({ success: true, token, email: paciente.email, nome: paciente.nome });
     } catch (error) {
         res.status(500).json({ success: false, message: "Erro ao fazer login" });
     }
