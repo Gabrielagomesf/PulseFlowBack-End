@@ -2,6 +2,7 @@ require("dotenv").config();
 const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
+const path = require("path");
 
 // Rotas
 const medicoRoutes = require("./routes/medicoRoutes");
@@ -21,14 +22,17 @@ const PORT = process.env.PORT || 5000;
 app.use(cors());
 app.use(express.json());
 
+// Servir arquivos estáticos da pasta "Médico"
+app.use('/Médico', express.static(path.join(__dirname, 'Médico')));
+
 // Rotas
-app.use("/api/pacientes", pacienteRoutes);  // Rota do paciente definida aqui
+app.use("/api/pacientes", pacienteRoutes);
 app.use("/api", medicoRoutes);
-app.use("/api/asma", asmaRoutes); // Rotas relacionadas a registros de asma
-app.use("/api/diabetes", diabetesRoutes); // Rotas relacionadas a registros de diabetes
+app.use("/api/asma", asmaRoutes);
+app.use("/api/diabetes", diabetesRoutes);
 app.use("/api/ciclo-menstrual", cicloMenstrualRoutes);
-app.use("/api/hormonal", hormonalRoutes); // Rotas relacionadas a registros hormonais
-app.use("/api/enxaqueca", enxaquecaRoutes); // Rotas relacionadas a registros de enxaqueca
+app.use("/api/hormonal", hormonalRoutes);
+app.use("/api/enxaqueca", enxaquecaRoutes);
 app.use("/api/insonia", insoniaRoutes);
 app.use("/api/pressaoArterial", pressaoRoutes);
 
