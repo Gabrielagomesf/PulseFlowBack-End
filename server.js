@@ -24,6 +24,10 @@ app.use(express.json());
 
 // Servir arquivos estáticos da pasta "Médico"
 app.use('/Médico', express.static(path.join(__dirname, 'Médico')));
+// Servir arquivos estáticos da pasta "Paciente"
+app.use('/Paciente', express.static(path.join(__dirname, 'Paciente')));
+
+
 
 // Rotas
 app.use("/api/pacientes", pacienteRoutes);
